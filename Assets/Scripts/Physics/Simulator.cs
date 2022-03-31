@@ -16,7 +16,7 @@ public class Simulator : Singleton<Simulator>
     {
 		foreach (var body in bodies)
 		{
-			Integrator.ExplicitEuler(body, Time.deltaTime);
+			Integrator.SemiImplicitEuler(body, Time.deltaTime);
 		}
     }
 
