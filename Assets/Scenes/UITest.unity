@@ -1238,6 +1238,7 @@ GameObject:
   - component: {fileID: 2066672324}
   - component: {fileID: 2066672323}
   - component: {fileID: 2066672325}
+  - component: {fileID: 2066672326}
   m_Layer: 0
   m_Name: Simulator
   m_TagString: Untagged
@@ -1259,6 +1260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forces:
   - {fileID: 2066672325}
+  - {fileID: 2066672326}
 --- !u!4 &2066672324
 Transform:
   m_ObjectHideFlags: 0
@@ -1286,3 +1288,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: {fileID: 11400000, guid: 0167d8904454dfe41972fced9506a75a, type: 2}
+--- !u!114 &2066672326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066672322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f072e798daccca248991bdf07bdba6d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravitation: {fileID: 11400000, guid: 997b31cd16a8ecf4e84f507c889b05ef, type: 2}
