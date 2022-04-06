@@ -16,7 +16,7 @@ public class Body : MonoBehaviour
     public Vector2 position { get => transform.position; set => transform.position = value; }
     public Vector2 velocity { get; set; } = Vector2.zero;
     public Vector2 acceleration { get; set; } = Vector2.zero;
-    public Vector2 force { get; set; } = Vector2.zero;
+    //public Vector2 force { get; set; } = Vector2.zero;
     
     public float mass => shape.mass;
     public float inverseMass { get => (mass == 0) ? 0 : 1 / mass; }
@@ -26,7 +26,8 @@ public class Body : MonoBehaviour
         switch (forceMode)
         {
             case eForceMode.Force:
-                this.force += force * inverseMass;
+
+                acceleration += force * inverseMass;
                 break;
             case eForceMode.Acceleration:
                 acceleration += force;

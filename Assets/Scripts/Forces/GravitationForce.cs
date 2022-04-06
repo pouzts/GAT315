@@ -17,12 +17,11 @@ public class GravitationForce : Force
 
                 // apply gravitational force
                 Vector2 direction = bodyA.position - bodyB.position;
-                float distanceSqr = Mathf.Max(direction.magnitude * direction.magnitude, 1); //d^2
+                float distanceSqr = Mathf.Max(direction.sqrMagnitude, 1); //d^2
+                float force = gravitation.value * (bodyA.mass * bodyB.mass) / distanceSqr; //G(m1*m2/d^2)
 
-                float gravitationForce = gravitation.value * (bodyA.mass * bodyB.mass / distanceSqr); //G(m1*m2/d^2)
-
-                bodyA.ApplyForce(-direction.normalized * gravitationForce, Body.eForceMode.Force);
-                bodyB.ApplyForce(direction.normalized * gravitationForce, Body.eForceMode.Force);
+                bodyA.ApplyForce(-direction.normalized * force, Body.eForceMode.Force);
+                bodyB.ApplyForce( direction.normalized * force, Body.eForceMode.Force);
             }
         }
     }
