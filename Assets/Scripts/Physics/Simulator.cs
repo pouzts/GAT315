@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Simulator : Singleton<Simulator>
 {
+	[SerializeField] IntData fixedFPS;
+	[SerializeField] StringData fps;
 	[SerializeField] List<Force> forces;
 
 	public List<Body> bodies { get; set; } = new List<Body>();
 	Camera activeCamera;
+
+	public float fixedDeltaTime => 1f / fixedFPS.value;
+	float timeAccumulator = 0;
 
 	private void Start()
 	{
@@ -16,14 +21,23 @@ public class Simulator : Singleton<Simulator>
 
 	private void Update()
 	{
+		timeAccumulator += Time.deltaTime;
+
 		forces.ForEach(force => force.ApplyForce(bodies));
 
-		bodies.ForEach(body =>
+		while (timeAccumulator > fixedDeltaTime)
 		{ 
-			Integrator.SemiImplicitEuler(body, Time.deltaTime);
-		});
+			bodies.ForEach(body =>
+			{ 
+				Integrator.SemiImplicitEuler(body, Time.deltaTime);
+			});
+			
+			timeAccumulator -= fixedDeltaTime;
+		}
 
 		bodies.ForEach(body => body.acceleration = Vector2.zero);
+		
+		fps.value = (1f / Time.deltaTime).ToString("##.#");
     }
 
     public Vector3 GetScreenToWorldPosition(Vector2 screen)

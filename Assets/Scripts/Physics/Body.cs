@@ -11,18 +11,30 @@ public class Body : MonoBehaviour
         Velocity
     }
 
+    public enum eBodyType
+    { 
+        Static,
+        Kinematic,
+        Dynamic
+    }
+
     public Shape shape;
+
+    public eBodyType bodyType { get; set; } = eBodyType.Dynamic;
 
     public Vector2 position { get => transform.position; set => transform.position = value; }
     public Vector2 velocity { get; set; } = Vector2.zero;
     public Vector2 acceleration { get; set; } = Vector2.zero;
-    //public Vector2 force { get; set; } = Vector2.zero;
+
+    public float drag { get; set; } = 0;
     
     public float mass => shape.mass;
-    public float inverseMass { get => (mass == 0) ? 0 : 1 / mass; }
+    public float inverseMass { get => (mass == 0 || bodyType != eBodyType.Dynamic) ? 0 : 1 / mass; }
 
     public void ApplyForce(Vector2 force, eForceMode forceMode)
     {
+        if (bodyType != eBodyType.Dynamic) return;
+
         switch (forceMode)
         {
             case eForceMode.Force:
