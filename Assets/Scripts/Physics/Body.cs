@@ -20,6 +20,8 @@ public class Body : MonoBehaviour
 
     public Shape shape;
 
+    public List<Spring> springs { get; set; } = new List<Spring>();
+
     public eBodyType bodyType { get; set; } = eBodyType.Dynamic;
 
     public Vector2 position { get => transform.position; set => transform.position = value; }
