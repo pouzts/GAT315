@@ -45,4 +45,19 @@ public class Simulator : Singleton<Simulator>
 		Vector3 world = activeCamera.ScreenToWorldPoint(screen);
 		return new Vector3(world.x, world.y, 0);
 	}
+
+	public Body GetScreenToBody(Vector3 screen)
+	{
+		Body body = null;
+
+		Ray ray = activeCamera.ScreenPointToRay(screen);
+		RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+
+		if (hit.collider) 
+		{
+			hit.collider.gameObject.TryGetComponent<Body>(out body);
+		}
+
+		return body;
+	}
 }
