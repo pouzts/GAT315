@@ -35,6 +35,8 @@ public class Simulator : Singleton<Simulator>
 				contact.bodyB.shape.color = Color.red;
 			});
 
+			Collision.SeparateContacts(contacts);
+
 			bodies.ForEach(body =>
 			{ 
 				Integrator.SemiImplicitEuler(body, Time.deltaTime);
