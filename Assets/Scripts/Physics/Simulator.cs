@@ -36,6 +36,7 @@ public class Simulator : Singleton<Simulator>
 			});
 
 			Collision.SeparateContacts(contacts);
+			Collision.ApplyImpulses(contacts);
 
 			bodies.ForEach(body =>
 			{ 
