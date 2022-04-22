@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Simulator : Singleton<Simulator>
 {
+	[SerializeField] BoolData simulate;
 	[SerializeField] IntData fixedFPS;
 	[SerializeField] StringData fps;
 	[SerializeField] List<Force> forces;
@@ -21,19 +22,22 @@ public class Simulator : Singleton<Simulator>
 
 	private void Update()
 	{
+		if (!simulate.value)
+			return;
+
 		timeAccumulator += Time.deltaTime;
 
 		forces.ForEach(force => force.ApplyForce(bodies));
 
 		while (timeAccumulator > fixedDeltaTime)
 		{
-			bodies.ForEach(body => body.shape.color = Color.white);
+			//bodies.ForEach(body => body.shape.color = Color.white);
 			Collision.CreateContacts(bodies, out var contacts);
-			contacts.ForEach(contact => 
+			/*contacts.ForEach(contact => 
 			{
 				contact.bodyA.shape.color = Color.red;
 				contact.bodyB.shape.color = Color.red;
-			});
+			});*/
 
 			Collision.SeparateContacts(contacts);
 			Collision.ApplyImpulses(contacts);
@@ -48,13 +52,14 @@ public class Simulator : Singleton<Simulator>
 
 		bodies.ForEach(body => body.acceleration = Vector2.zero);
 		
+		// get fps
 		fps.value = (1f / Time.deltaTime).ToString("##.#");
     }
 
     public Vector3 GetScreenToWorldPosition(Vector2 screen)
 	{
 		Vector3 world = activeCamera.ScreenToWorldPoint(screen);
-		return new Vector3(world.x, world.y, 0);
+		return world;
 	}
 
 	public Body GetScreenToBody(Vector3 screen)
@@ -71,4 +76,10 @@ public class Simulator : Singleton<Simulator>
 
 		return body;
 	}
+
+	public void Clear()
+    {
+		bodies.ForEach(body => Destroy(body.gameObject));
+		bodies.Clear();
+    }
 }
