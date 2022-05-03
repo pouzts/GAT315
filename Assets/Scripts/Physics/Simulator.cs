@@ -45,6 +45,7 @@ public class Simulator : Singleton<Simulator>
 			bodies.ForEach(body =>
 			{ 
 				Integrator.SemiImplicitEuler(body, Time.deltaTime);
+				body.position = body.position.Wrap(GetScreenSize() * -0.5f, GetScreenSize() * 0.5f);
 			});
 			
 			timeAccumulator -= fixedDeltaTime;
@@ -60,6 +61,11 @@ public class Simulator : Singleton<Simulator>
 	{
 		Vector3 world = activeCamera.ScreenToWorldPoint(screen);
 		return world;
+	}
+
+	public Vector2 GetScreenSize()
+	{
+		return activeCamera.ViewportToWorldPoint(Vector2.one) * 2;
 	}
 
 	public Body GetScreenToBody(Vector3 screen)
