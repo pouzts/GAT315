@@ -8,8 +8,8 @@ public struct AABB
     public Vector2 size;
     public Vector2 extents { get { return size * 0.5f; } }
 
-    public Vector2 min { get { return center - extents; } set { SetMinMax(value, max); } }
-    public Vector2 max { get { return size + min; } set { SetMinMax(min, value); } }
+    public Vector2 min { get => center - extents;}
+    public Vector2 max { get => center + extents;}
 
     public AABB(Vector2 center, Vector2 size)
     {
@@ -19,24 +19,20 @@ public struct AABB
 
     public bool Contains(Vector2 point)
     {
-        return Intersect(point, point);
+        return point.x >= min.x && point.x <= max.x &&
+               point.y >= min.y && point.y <= max.y;
     }
 
     public bool Contains(AABB aabb)
     {
-        return Intersect(aabb.min, aabb.max);
+        return aabb.min.x >= min.x && aabb.max.x <= max.x &&
+               aabb.min.y >= min.y && aabb.max.y <= max.y;
     }
 
     public void SetMinMax(Vector2 min, Vector2 max)
     {
         size = max - min;
         center = min + extents;
-    }
-
-    public bool Intersect(Vector2 min, Vector2 max)
-    {
-        return min.x >= this.min.x && max.x <= this.max.x &&
-               min.y >= this.min.x && max.y <= this.max.y;
     }
 
     public void Expand(Vector2 point)
@@ -51,7 +47,9 @@ public struct AABB
 
     public void Draw(Color color, float width = 0.5f)
     {
-        Debug.DrawLine(min, max, color);
-        Debug.DrawLine(max, min, color);
+        Debug.DrawLine(new Vector2(min.x, min.y), new Vector2(max.x, min.y), color);
+        Debug.DrawLine(new Vector2(min.x, max.y), new Vector2(max.x, max.y), color);
+        Debug.DrawLine(new Vector2(min.x, min.y), new Vector2(min.x, max.y), color);
+        Debug.DrawLine(new Vector2(max.x, min.y), new Vector2(max.x, max.y), color);
     }
 }

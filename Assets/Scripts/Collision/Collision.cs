@@ -34,15 +34,17 @@ public class Collision
         contact.bodyA = bodyA;
         contact.bodyB = bodyB;
 
+        // compute depth
         Vector2 direction = bodyA.position - bodyB.position;
         float distance = direction.magnitude;
         float radius = ((CircleShape)bodyA.shape).radius + ((CircleShape)bodyB.shape).radius;
         contact.depth = radius - distance;
 
+        // create normal
         contact.normal = direction.normalized;
 
-        Vector2 position = bodyB.position + (((CircleShape)bodyB.shape).radius * contact.normal);
-        Debug.DrawRay(position, contact.normal);
+        //Vector2 position = bodyB.position + (((CircleShape)bodyB.shape).radius * contact.normal);
+        //Debug.DrawRay(position, contact.normal);
 
         return contact;
     }

@@ -13,4 +13,5 @@ public abstract class Shape : MonoBehaviour
     public float mass => area * density;
 
     public Color color { set => spriteRenderer.material.color = value; }
+    public abstract AABB GetAABB(Vector2 position);
 }
