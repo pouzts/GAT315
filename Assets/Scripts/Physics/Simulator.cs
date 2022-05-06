@@ -15,6 +15,8 @@ public class Simulator : Singleton<Simulator>
 	public float fixedDeltaTime => 1f / fixedFPS.value;
 	float timeAccumulator = 0;
 
+	BroadPhase broadPhase = new Quadtree();
+
 	private void Start()
 	{
 		activeCamera = Camera.main;
@@ -29,8 +31,13 @@ public class Simulator : Singleton<Simulator>
 
 		forces.ForEach(force => force.ApplyForce(bodies));
 
-		while (timeAccumulator > fixedDeltaTime)
+		// integrate physics simulation with fixed delta time
+		while (timeAccumulator >= fixedDeltaTime)
 		{
+			// construct broad-phase tree
+			broadPhase.Build(new AABB(Vector2.zero, GetScreenSize()), bodies);
+			broadPhase.Draw();
+
 			//bodies.ForEach(body => body.shape.color = Color.white);
 			Collision.CreateContacts(bodies, out var contacts);
 			/*contacts.ForEach(contact => 
