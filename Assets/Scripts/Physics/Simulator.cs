@@ -31,20 +31,19 @@ public class Simulator : Singleton<Simulator>
 
 		forces.ForEach(force => force.ApplyForce(bodies));
 
+		Vector2 screenSize = GetScreenSize();
+
 		// integrate physics simulation with fixed delta time
 		while (timeAccumulator >= fixedDeltaTime)
 		{
 			// construct broad-phase tree
 			broadPhase.Build(new AABB(Vector2.zero, GetScreenSize()), bodies);
-			broadPhase.Draw();
 
-			//bodies.ForEach(body => body.shape.color = Color.white);
-			Collision.CreateContacts(bodies, out var contacts);
-			/*contacts.ForEach(contact => 
-			{
-				contact.bodyA.shape.color = Color.red;
-				contact.bodyB.shape.color = Color.red;
-			});*/
+			var contacts = new List<Contact>();
+			Collision.CreateBroadPhaseContacts(broadPhase, bodies, contacts);
+			Collision.CreateNarrowPhaseContacts(contacts);
+
+			//Collision.CreateContacts(bodies, out var contacts);
 
 			Collision.SeparateContacts(contacts);
 			Collision.ApplyImpulses(contacts);
@@ -52,13 +51,15 @@ public class Simulator : Singleton<Simulator>
 			bodies.ForEach(body =>
 			{ 
 				Integrator.SemiImplicitEuler(body, Time.deltaTime);
-				body.position = body.position.Wrap(GetScreenSize() * -0.5f, GetScreenSize() * 0.5f);
-				body.shape.GetAABB(body.position).Draw(Color.white);
+				body.position = body.position.Wrap(screenSize * -0.5f, screenSize * 0.5f);
 			});
 			
 			timeAccumulator -= fixedDeltaTime;
 		}
 
+		broadPhase.Draw();
+		
+		// reset
 		bodies.ForEach(body => body.acceleration = Vector2.zero);
 		
 		// get fps

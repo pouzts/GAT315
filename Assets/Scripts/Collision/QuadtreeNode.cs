@@ -6,6 +6,7 @@ public class QuadtreeNode
 {
     AABB nodeAABB;
     int nodeCapacity;
+    int nodeLevel;
     List<Body> nodeBodies = new List<Body>();
 
     QuadtreeNode northeast;
@@ -15,10 +16,11 @@ public class QuadtreeNode
 
     bool subdivided = false;
 
-    public QuadtreeNode(AABB aabb, int capacity)
+    public QuadtreeNode(AABB aabb, int capacity, int level)
     {
         nodeAABB = aabb;
         nodeCapacity = capacity;
+        nodeLevel = level;
     }
 
     public void Insert(Body body)
@@ -44,30 +46,52 @@ public class QuadtreeNode
         }
     }
 
+    public void Query(AABB aabb, List<Body> results)
+    {
+        // check if query contains aabb
+        if (!nodeAABB.Contains(aabb)) return;
+
+        // add intersecting node bodies
+        results.AddRange(nodeBodies);
+
+        // check children
+        if (subdivided)
+        {
+            northeast.Query(aabb, results);
+            northwest.Query(aabb, results);
+            southeast.Query(aabb, results);
+            southwest.Query(aabb, results);
+        }
+    }
+
     private void Subdivide()
     {
         float xo = nodeAABB.extents.x * 0.5f;
         float yo = nodeAABB.extents.y * 0.5f;
 
-        northeast = new QuadtreeNode(new AABB(new Vector2(nodeAABB.center.x - xo, nodeAABB.center.y + yo), nodeAABB.extents), nodeCapacity);
-        northwest = new QuadtreeNode(new AABB(new Vector2(nodeAABB.center.x + xo, nodeAABB.center.y + yo), nodeAABB.extents), nodeCapacity);
-        southeast = new QuadtreeNode(new AABB(new Vector2(nodeAABB.center.x - xo, nodeAABB.center.y - yo), nodeAABB.extents), nodeCapacity);
-        southwest = new QuadtreeNode(new AABB(new Vector2(nodeAABB.center.x + xo, nodeAABB.center.y - yo), nodeAABB.extents), nodeCapacity);
+        northeast = new QuadtreeNode(new AABB(new Vector2(nodeAABB.center.x - xo, nodeAABB.center.y + yo), nodeAABB.extents), nodeCapacity, nodeLevel + 1);
+        northwest = new QuadtreeNode(new AABB(new Vector2(nodeAABB.center.x + xo, nodeAABB.center.y + yo), nodeAABB.extents), nodeCapacity, nodeLevel + 1);
+        southeast = new QuadtreeNode(new AABB(new Vector2(nodeAABB.center.x - xo, nodeAABB.center.y - yo), nodeAABB.extents), nodeCapacity, nodeLevel + 1);
+        southwest = new QuadtreeNode(new AABB(new Vector2(nodeAABB.center.x + xo, nodeAABB.center.y - yo), nodeAABB.extents), nodeCapacity, nodeLevel + 1);
 
         subdivided = true;
     }
 
     public void Draw()
     {
-        nodeAABB.Draw(Color.green);
+        Color color = BroadPhase.colors[nodeLevel % BroadPhase.colors.Length];
+
+        nodeAABB.Draw(color);
+        nodeBodies.ForEach(body => Debug.DrawLine(nodeAABB.center, body.position, color));
+        //nodeAABB.Draw(Color.green);
 
         // draw northeast node
-        northeast?.nodeAABB.Draw(Color.green);
+        northeast?.Draw();
         // draw northwest node
-        northwest?.nodeAABB.Draw(Color.green);
+        northwest?.Draw();
         // draw southeast node
-        southeast?.nodeAABB.Draw(Color.green);
+        southeast?.Draw();
         // draw southwest node
-        southwest?.nodeAABB.Draw(Color.green);
+        southwest?.Draw();
     }
 }
