@@ -15,7 +15,7 @@ public class Simulator : Singleton<Simulator>
 	public float fixedDeltaTime => 1f / fixedFPS.value;
 	float timeAccumulator = 0;
 
-	BroadPhase broadPhase = new Quadtree();
+	BroadPhase broadPhase = new BVH();
 
 	private void Start()
 	{
