@@ -9,14 +9,10 @@ public class BVH : BroadPhase
 
     public override void Build(AABB aabb, List<Body> bodies)
     {
-        queryResultCount = 0;
-        List<Body> sorted = new List<Body>(bodies);
+        List<Body> sorted = bodies.OrderBy(body => (body.position.x)).ToList();
 
-        // sort bodies along x-axis (position.x)
-        sorted.Sort((body1, body2) => body1.position.x.CompareTo(body2.position.x));
-
-        // create BVH root node
-        rootNode = new BVHNode(sorted);
+        // create bvh root node
+        rootNode = new BVHNode(sorted, 0);
     }
 
     public override void Query(AABB aabb, List<Body> results)
