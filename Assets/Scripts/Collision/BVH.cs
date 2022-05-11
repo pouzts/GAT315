@@ -9,6 +9,7 @@ public class BVH : BroadPhase
 
     public override void Build(AABB aabb, List<Body> bodies)
     {
+        queryResultCount = 0;
         // sort bodies by the body's x position
         List<Body> sorted = bodies.OrderBy(body => (body.position.x)).ToList();
 
@@ -20,12 +21,13 @@ public class BVH : BroadPhase
     {
         rootNode.Query(aabb, results);
         // update result count
-        queryResultCount = queryResultCount + results.Count;
+        queryResultCount += results.Count;
     }
 
     public override void Query(Body body, List<Body> results)
     {
         rootNode.Query(body.shape.GetAABB(body.position), results);
+        queryResultCount += results.Count;
     }
 
     public override void Draw()

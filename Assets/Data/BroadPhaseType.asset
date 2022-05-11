@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a35d22ab804b2d469e711fb20d5c990, type: 3}
-  m_Name: Collision
+  m_Script: {fileID: 11500000, guid: 9f7d3489f0bd56b4fa9ed721c11d5d32, type: 3}
+  m_Name: BroadPhaseType
   m_EditorClassIdentifier: 
-  _value: 
+  _value: 0
+  values:
+  - Quadtree
+  - BVH
+  - Null
