@@ -22,7 +22,7 @@ public struct Polar
 		Polar polar;
 
 		polar.length = v.magnitude;
-		polar.angle = Mathf.Atan2(v.x, v.y) * Mathf.Rad2Deg;
+		polar.angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
 
 		return polar;
 	}

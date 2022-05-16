@@ -17,18 +17,21 @@ public class IKSegment : KinematicSegment
     private void Update()
     {
         // scale segment
+        transform.localScale = Vector2.one * size;
 
         // update rotation
-
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     public void Follow(Vector2 target)
     {
         // compute direction (target <- start) with segment length
-        
-        // convert direction cartesian to polar
-        
-        // set start to target - direction
+        Vector2 direction = (target - start).normalized * length;
 
+        // convert direction cartesian to polar
+        polar = Polar.CartesianToPolar(direction);
+
+        // set start to target - direction
+        start = target - direction;
     }
 }

@@ -3521,7 +3521,7 @@ MonoBehaviour:
   simulate: {fileID: 11400000, guid: 8cf1ab7f34de1264494aace6a799ca3d, type: 2}
   fixedFPS: {fileID: 11400000, guid: d9828a87bc749be47a19ca57c5e06b67, type: 2}
   fps: {fileID: 11400000, guid: 02d8ee45135887f4190043cf548828e4, type: 2}
-  collisionInfo: {fileID: 0}
+  collisionInfo: {fileID: 11400000, guid: 42af9b613a4ffcf4db9ea7eac6880c8e, type: 2}
   broadPhaseType: {fileID: 11400000, guid: 264ac5cd987335c4abde07ae2f5e7b1d, type: 2}
   forces:
   - {fileID: 2066672325}
