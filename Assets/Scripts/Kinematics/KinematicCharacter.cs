@@ -15,7 +15,7 @@ public class KinematicCharacter : MonoBehaviour
     {
         Vector3 move = Vector3.zero;
         move.x = Input.GetAxis("Horizontal") * 5;
-        move.x = Input.GetAxis("Vertical") * 5;
+        move.y = Input.GetAxis("Vertical") * 5;
 
         transform.position += move * Time.deltaTime;
     }
