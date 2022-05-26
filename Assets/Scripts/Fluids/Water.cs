@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshCollider))]
 public class Water : MonoBehaviour
 {
+	[SerializeField] bool enableWaves = false;
+
 	[System.Serializable]
 	struct Wave
 	{
@@ -63,9 +65,15 @@ public class Water : MonoBehaviour
 		time += Time.deltaTime;
 		while (time > timeStep)
 		{
-			frame++;
-			UpdateSimulation(previousBuffer, currentBuffer, timeStep);
-			//UpdateWave(currentBuffer);
+			if (enableWaves)
+			{ 
+				UpdateWave(currentBuffer);
+			}
+			else
+			{
+				frame++;
+				UpdateSimulation(previousBuffer, currentBuffer, timeStep);
+			}
 
 			time -= timeStep;
 		}

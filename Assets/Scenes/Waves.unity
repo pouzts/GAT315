@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a109504ebc16e3b48bef5eea72a30f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strength: 5
+  strength: 2
   water: {fileID: 2078033982}
 --- !u!4 &241433488
 Transform:
@@ -376,6 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73e8c0040a601884f8cd43e254491b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWaves: 0
   fps: 30
   damping: 0.16
   wave1:
@@ -431,7 +432,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ae0aa712d6b4cad49b44b84642949aed, type: 2}
+  - {fileID: 2100000, guid: 1e1584c2626430c4c8e45f8998ab9971, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
