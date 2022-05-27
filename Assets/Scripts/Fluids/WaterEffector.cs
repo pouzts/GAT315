@@ -9,7 +9,7 @@ public class WaterEffector : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetButtonDown("Fire1"))
+		if (Input.GetButton("Fire1"))
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			water.Touch(ray, strength);

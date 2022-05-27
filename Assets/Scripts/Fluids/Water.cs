@@ -6,6 +6,7 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
 	[SerializeField] bool enableWaves = false;
+	[SerializeField] bool enableRipples = false;
 
 	[System.Serializable]
 	struct Wave
@@ -69,7 +70,7 @@ public class Water : MonoBehaviour
 			{ 
 				UpdateWave(currentBuffer);
 			}
-			else
+			if (enableRipples)
 			{
 				frame++;
 				UpdateSimulation(previousBuffer, currentBuffer, timeStep);
